@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enganado</title>
+  <style>
+    .fake-link {
+      color: blue;
+      /* A cor do texto para parecer um link */
+      text-decoration: underline;
+      /* Faz o texto parecer um link */
+      text-decoration-color: blue;
+      /* Cor da linha */
+      cursor: pointer;
+      /* Aparece como um link clicavel */
+    }
+
+    #message {
+      display: none;
+      /* A mensagem comeca escondida */
+      background-color: yellow;
+      padding: 10px;
+      border: 1px solid black;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p class="fake-link" onclick="showMessage()">Clique aqui</p>
+
+  <div id="message">Foste enganado Alvinho burro de merda pá! Isso nao e um link, so tem text-decoration-color: blue e a
+    linha como underline.</div>
+
+  <script>
+    function showMessage() {
+      // Exibe a mensagem de alerta
+      document.getElementById("message").style.display = "block";
+    }
+  </script>
+
+</body>
+
+</html>
