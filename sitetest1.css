@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f0f0;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* Container para os botões em linha */
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+  }
+
+  /* Estilo dos botões */
+  .btn {
+    background: blue;
+    color: #fff;
+    border: none;
+    display: flex;
+    margin-top: 25px;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.3s ease,
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  }
+
+  /* Animação no hover: muda cor, eleva o botão e adiciona sombra */
+  .btn:hover {
+    background: blueviolet;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Animação ao clicar */
+  .btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  }
+
+header{
+    background-color: lightblue;
+    height: 100px;
+    width: 100%;
+}
+
+#explore{
+    
+}
