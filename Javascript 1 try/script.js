@@ -6,17 +6,20 @@ let currentWeapon = 0;
 let fighting;
 let monsterHealth;
 let inventory = ["Arm"];
+let monsterLevel;
+let monsterName;
+
 // Non-mutable variables
 const button1_store = document.querySelector("#button1");
 const button2_cave = document.querySelector("#button2");
 const button3_dragon = document.querySelector("#button3");
 const text = document.querySelector("#text");
-const xpText = document.querySelector("#xpTest");
+const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
 const goldText  = document.querySelector("#goldText");
-const monsterStatus = document.querySelector("#monsterStatus");
-const monsterNameText = document.querySelector("#monsterNameText");
-const monsterHealthText = document.querySelector("#monsterHealthText");
+const monsterStatus = document.querySelector("#monsterStats");
+const monsterNameText = document.querySelector("#monsterName");
+const monsterHealthText = document.querySelector("#monsterHealth");
 
 const weapons = [
     {
@@ -44,20 +47,21 @@ const monsters = [
     },
     {
         name: "Elton",
-        lvl: 6,
+        lvl: 8,
         health: 60
     },
     {
         name: "Fishengon",
-        lvl: 10,
+        lvl: 18,
         health: 140
     },
     {
         name: "Dragon",
-        lvl: 20,
+        lvl: 30,
         health: 500
     }
 ];
+
 
 const locations = [
     {
@@ -83,6 +87,38 @@ const locations = [
         ],
         "button functions" : [fightAlvinho , fightElton, fightFish],
         text: "U enterred the Store"
+    },
+    {
+        name: "Fight",
+        "button text" : [
+            "Attack", "DOdge" , "Run"
+        ],
+        "button functions" : [ attack , dodge, run],
+        text : "U are fighting right now lil bro"
+    },
+    {
+        name: "Kill Monster",
+        "button text" : [
+            "Go to the Town" , "Go to the Town" , "Go to the Town"
+        ],
+        "button functions" : [goTown , goTown, goTown],
+        text: function(){ return "U defeated the monster " + monsterName;}
+    },
+    {
+        name: "Death",
+        "button text" : [
+            "Replay" , "Replay" , "Replay"
+        ],
+        "button functions" : [Replay , Replay, Replay],
+        text: 'Imagine being this bad, i will be laughing by here... in matter of fact i think even i could beat ur ass'
+    },
+    {
+        name: "WinGame",
+        "button text" : [
+            "Replay" , "Replay" , "Replay"
+        ],
+        "button functions" : [Replay , Replay, Replay],
+        text: 'I was gonna jump u, but nahh, u kinda good lil bro'
     }
 ];
 // initialize buttons
@@ -91,6 +127,9 @@ button2_cave.onclick = goCave;
 button3_dragon.onclick = fightDragon;
 //Functions
 function update(location) {
+    if(monsterHealth <=0){
+        monsterStatus.style.display = "none";
+    }
     button1_store.innerText = location["button text"][0];
     button2_cave.innerText = location["button text"][1];
     button3_dragon.innerText = location["button text"][2];
@@ -108,6 +147,10 @@ function goStore(){
 }
 function goCave(){
     update(locations[2]);
+}
+function run(){
+    monsterStatus.style.display = "none";
+    update(locations[0]);
 }
 function buyHealth(){
     if(gold >= 10){
@@ -128,7 +171,7 @@ function buyWeapon(){
             currentWeapon++;
             goldText.innerText = gold;
             let newWeapon = weapons[currentWeapon].name;
-            text.innerText = "U have a new weapon, a "+newWeapon;
+            text.innerText = "U have a new weapon, a "+newWeapon + "\n";
             inventory.push[newWeapon];
             text.innerText+= "And u now have it in ur inventory"
         }
@@ -139,7 +182,7 @@ function buyWeapon(){
     else{
         text.innerText= "U already have the Strongest Weapon! U can sell it though";
         button2_cave.innerText = "15 Gold";
-        button2_cave = sellWeapon;
+        button2_cave.onclick = sellWeapon;
         
     }
 }
@@ -156,15 +199,95 @@ function sellWeapon(){
     }
 }
 function fightDragon(){
-    
+    fighting = 3;
+    gofight();
 }
 function fightAlvinho(){
+    fighting = 0;
+    gofight();
     
 }
 function fightElton(){
-    
+    fighting = 1;
+    gofight();
 }
 function fightFish(){
-    
+    fighting = 2;
+    gofight();
 }
+function gofight(){
+    update(locations[3]);
+    monsterHealth = monsters[fighting].health;
+    monsterLevel = monsters[fighting].lvl;
+    monsterName = monsters[fighting].name;
+
+    monsterStatus.style.display = "block";
+    monsterNameText.innerText = monsterName;
+    monsterHealthText.innerText = monsterHealth;
+
+}
+function attack(){
+    for(let i = 0; i < 1; i++){
+        text.innerText = "The " + monsterName + " attacks. \n";
+        if(isMonsterHit()){
+            text.innerText += "You attack it with your " +weapons[currentWeapon].name;
+            health -= monsterLevel + Math.floor(Math.random() * xp) +1;
+            healthText.innerText = health;
+            if(health <=0){
+                lose();
+                break;
+            }
+            if(Math.random() < 0.05 && inventory.length > 1){
+                text.innerText+= "\n Bro, sadly ur "+inventory[currentWeapon].name + " was destroyed becouse u used it to much or had unlucky";~
+                inventory.pop();
+                currentWeapon--;
+            }
+        }
+        
+        monsterHealth -= weapons[currentWeapon].power;
+        monsterHealthText.innerText = monsterHealth;
+        if(monsterHealth <=0 ){
+            (fighting == 4) ? winGame() : defeatMonster();
+        }
+    }
+
+}
+function isMonsterHit(){
+    return (Math.random() > 0.15 || health < 20);
+}
+function dodge(){
+    text.innerText = "You fricking dodge the fucking fuck attack of the fucking "+ monsterName + " What a fuck sake great fucking thing ";
+}
+
+function defeatMonster(){
+    gold += Math.floor( monsterLevel * 6.7);
+    xp += monsterLevel;
+    goldText.innerText = gold;
+    xpText.innerText = xp;
+    update( locations[4]);
+}
+function lose(){
+    update(locations[5]);
+}
+function Replay(){
+    monsterStatus.style.display = "none";
+    xp = 0;
+    health = 100;
+    gold = 50;
+    currentWeapon = 0;
+    fighting;
+    monsterHealth;
+    inventory = ["Arm"];
+    monsterLevel;
+    monsterName;
+
+    xpText.innerText = xp;
+    healthText.innerText = health;
+    goldText.innerText = gold;
+    goTown();
+}
+function winGame(){
+    update(locations[6]);
+}
+
 

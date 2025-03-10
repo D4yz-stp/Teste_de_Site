@@ -18,6 +18,8 @@ body {
   }
   
   #controls {
+    display: flex;
+    justify-content: space-between;
     border: 1px black solid;
     padding: 5px;
   }
