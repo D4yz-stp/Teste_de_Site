@@ -3,30 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="styleindex.css"">
+  <link rel="stylesheet" href="styleindex.css">
   <title>Página Inicial</title>
 </head>
 <body>
-  <div>
-    <h1>Bem-vindo</h1>
-    <div>
-      <p>Clique no link abaixo para acessar a página de testes de padding:</p>
-      <a class="link_final" href="conjuntos.html">Ir para Conjuntos</a>
-    
-      <p>Clique no link abaixo para acessar a página da pegadinha:</p>
-      <a class="link_final" href="BURRO.html">Ir para a pegadinha</a>
-      <p>n sei:</p>
-      <a class="link_final" href="fontecss.html">Ir para Fontes css</a>
-      <p>Working on:</p>
-      <a class="link_final" href="sitetest1.html">Ir para o site de teste</a>
-    </div>
+  <div id="tooltip" class="tooltip">Zero zero zero zero</div>
+  <div class="menu">
+    <h1>Bem-Vindo(a)!!</h1>
+      <a class="link_final" data-tooltip="Clique no link para acessar a página de testes de padding" href="conjuntos.html">Ir para Conjuntos</a>
+      <a class="link_final" data-tooltip="Clique no link abaixo para acessar a página da pegadinha" href="BURRO.html">Ir para a pegadinha</a>
+      <a class="link_final" data-tooltip="O divaldo not know" href="fontecss.html">Ir para Fontes css</a>
+      <a class="link_final" data-tooltip="Working on" href="sitetest1.html">Ir para o site de teste</a>
+    <p> You can still enjoy this site:</p>
+    <img onclick="window.open('https://github.com/D4yz-stp')" src="./github.png"/>
   </div>
-  <br>
     
-  <p> u can still enjoy this site with this</p>
-  <a rel="Github" href="https://github.com/D4yz-stp" target="_blank">Meu GitHub</a>
   
-  
+  <script defer>
+  const buttons = document.getElementsByClassName('link_final');
+    const tooltip = document.getElementById('tooltip');
+    const array = Array.from(buttons)
+
+    array.forEach(a => {
+      a.addEventListener('mouseover', () => {
+      tooltip.textContent = a.dataset.tooltip; 
+      tooltip.style.opacity = '1';
+    });
+
+     a.addEventListener('mouseout', () => {
+      tooltip.style.opacity = '0';
+    });
+
+    a.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.clientX + 10) + 'px'; // offset to avoid cursor overlap
+      tooltip.style.top = (e.clientY + 10) + 'px';
+    });
+    })
+
+
+   
+ 
+
+  </script>
 
 </body>
 </html>
